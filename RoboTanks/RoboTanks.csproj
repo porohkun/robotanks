@@ -55,7 +55,29 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Page Include="MainWindow.xaml">
+    <Compile Include="Controls\MapCanvas.cs" />
+    <Compile Include="NewMapWindow.xaml.cs">
+      <DependentUpon>NewMapWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Source\Battle\BarrierType.cs" />
+    <Compile Include="Source\Battle\Cell.cs" />
+    <Compile Include="Source\Battle\Map.cs" />
+    <Compile Include="Source\Battle\Point.cs" />
+    <Compile Include="Source\Battle\SurfaceType.cs" />
+    <Compile Include="Source\CustomCommands.cs" />
+    <Compile Include="Windows\MapEditorWindow.xaml.cs">
+      <DependentUpon>MapEditorWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Source\Settings.cs" />
+    <Page Include="NewMapWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Windows\MapEditorWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Windows\MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -63,7 +85,7 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="MainWindow.xaml.cs">
+    <Compile Include="Windows\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
@@ -94,6 +116,30 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\dirt.png" />
+    <Resource Include="Images\grass.png" />
+    <Resource Include="Images\gravel.png" />
+    <Resource Include="Images\rock.png" />
+    <Resource Include="Images\tank_blue.png" />
+    <Resource Include="Images\tank_green.png" />
+    <Resource Include="Images\tank_pink.png" />
+    <Resource Include="Images\tank_red.png" />
+    <Resource Include="Images\tree.png" />
+    <Resource Include="Images\wall.png" />
+    <Resource Include="Images\water.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Icons\save.png" />
+    <Resource Include="Images\Icons\open.png" />
+    <Resource Include="Images\Icons\new.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Icons\zoom-in.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Icons\zoom-out.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

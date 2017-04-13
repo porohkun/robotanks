@@ -1,0 +1,58 @@
+﻿<Window x:Class="RoboTanks.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:RoboTanks"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="350" Width="525" Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="10"/>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="15"/>
+            <RowDefinition Height="25"/>
+            <RowDefinition Height="10"/>
+            <RowDefinition Height="25"/>
+            <RowDefinition Height="5"/>
+            <RowDefinition Height="25"/>
+            <RowDefinition Height="5"/>
+            <RowDefinition Height="25"/>
+            <RowDefinition Height="5"/>
+            <RowDefinition Height="25"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="25"/>
+            <RowDefinition Height="10"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="10"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="10"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="10"/>
+        </Grid.ColumnDefinitions>
+        <TextBlock Grid.Column="1" Grid.ColumnSpan="3" Grid.Row="1" Text="Robo Tanks" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="22" FontFamily="Candara"/>
+        <TextBlock Grid.Column="1" Grid.Row="3" Text="Select map:" HorizontalAlignment="Right"/>
+        <ComboBox Grid.Column="3" Grid.Row="3"/>
+        <TextBlock Grid.Column="1" Grid.Row="5" Text="Tank_1 AI:" HorizontalAlignment="Right"/>
+        <ComboBox Grid.Column="3" Grid.Row="5"/>
+        <TextBlock Grid.Column="1" Grid.Row="7" Text="Tank_2 AI:" HorizontalAlignment="Right"/>
+        <ComboBox Grid.Column="3" Grid.Row="7"/>
+        <TextBlock Grid.Column="1" Grid.Row="9" Text="Tank_3 AI:" HorizontalAlignment="Right"/>
+        <ComboBox Grid.Column="3" Grid.Row="9"/>
+        <TextBlock Grid.Column="1" Grid.Row="11" Text="Tank_4 AI:" HorizontalAlignment="Right"/>
+        <ComboBox Grid.Column="3" Grid.Row="11"/>
+        <Grid Grid.Column="1" Grid.ColumnSpan="3" Grid.Row="13">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="120"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="120"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="120"/>
+            </Grid.ColumnDefinitions>
+            <Button Grid.Column="0" Content="Map editor" Click="MapEditor_Click"/>
+            <Button Grid.Column="2" Content="Start battle" Click="StartBattle_Click"/>
+            <Button Grid.Column="4" Content="Open tanks dir" Click="OpenTanksDir_Click"/>
+        </Grid>
+    </Grid>
+</Window>

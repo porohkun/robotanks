@@ -1,0 +1,151 @@
+﻿<Window x:Class="RoboTanks.MapEditorWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:RoboTanks"
+        mc:Ignorable="d"
+        Title="MapEditorWindow" Name="EditorWindow" Height="300" Width="500">
+    <Window.Resources>
+        <x:Array Type="ImageSource" x:Key="surfaces">
+            <ImageSource>/Images/dirt.png</ImageSource>
+            <ImageSource>/Images/grass.png</ImageSource>
+            <ImageSource>/Images/gravel.png</ImageSource>
+            <ImageSource>/Images/water.png</ImageSource>
+        </x:Array>
+        <x:Array Type="ImageSource" x:Key="barriers">
+            <ImageSource>/Images/rock.png</ImageSource>
+            <ImageSource>/Images/tree.png</ImageSource>
+            <ImageSource>/Images/wall.png</ImageSource>
+        </x:Array>
+        <x:Array Type="ImageSource" x:Key="tanks">
+            <ImageSource>/Images/tank_red.png</ImageSource>
+            <ImageSource>/Images/tank_green.png</ImageSource>
+            <ImageSource>/Images/tank_blue.png</ImageSource>
+            <ImageSource>/Images/tank_pink.png</ImageSource>
+        </x:Array>
+    </Window.Resources>
+    <Window.CommandBindings>
+        <CommandBinding Command="New"    Executed="CommandBinding_New"    CanExecute="CommonCommandBinding_CanExecute" />
+        <CommandBinding Command="Open"   Executed="CommandBinding_Open"   CanExecute="CommonCommandBinding_CanExecute" />
+        <CommandBinding Command="Save"   Executed="CommandBinding_Save"   CanExecute="CommonCommandBinding_CanExecute" />
+        <CommandBinding Command="SaveAs" Executed="CommandBinding_SaveAs" CanExecute="CommonCommandBinding_CanExecute" />
+        <CommandBinding Command="Close"  Executed="CommandBinding_Close"  CanExecute="CommonCommandBinding_CanExecute" />
+        <CommandBinding Command="local:CustomCommands.ZoomIn"   Executed="CommandBinding_ZoomIn"  CanExecute="CommonCommandBinding_CanExecute" />
+        <CommandBinding Command="local:CustomCommands.ZoomOut"  Executed="CommandBinding_ZoomOut" CanExecute="CommonCommandBinding_CanExecute" />
+        <CommandBinding Command="local:CustomCommands.S_dirt"   Executed="CommandBinding_Dirt"    CanExecute="CommonCommandBinding_CanExecute" />
+        <CommandBinding Command="local:CustomCommands.S_grass"  Executed="CommandBinding_Grass"   CanExecute="CommonCommandBinding_CanExecute" />
+        <CommandBinding Command="local:CustomCommands.S_gravel" Executed="CommandBinding_Gravel"  CanExecute="CommonCommandBinding_CanExecute" />
+        <CommandBinding Command="local:CustomCommands.S_water"  Executed="CommandBinding_Water"   CanExecute="CommonCommandBinding_CanExecute" />
+        <CommandBinding Command="local:CustomCommands.S_none"   Executed="CommandBinding_None"    CanExecute="CommonCommandBinding_CanExecute" />
+        <CommandBinding Command="local:CustomCommands.S_rock"   Executed="CommandBinding_Rock"    CanExecute="CommonCommandBinding_CanExecute" />
+        <CommandBinding Command="local:CustomCommands.S_tree"   Executed="CommandBinding_Tree"    CanExecute="CommonCommandBinding_CanExecute" />
+        <CommandBinding Command="local:CustomCommands.S_wall"   Executed="CommandBinding_Wall"    CanExecute="CommonCommandBinding_CanExecute" />
+        <CommandBinding Command="local:CustomCommands.S_tank1"  Executed="CommandBinding_Tank1"   CanExecute="CommonCommandBinding_CanExecute" />
+        <CommandBinding Command="local:CustomCommands.S_tank2"  Executed="CommandBinding_Tank2"   CanExecute="CommonCommandBinding_CanExecute" />
+        <CommandBinding Command="local:CustomCommands.S_tank3"  Executed="CommandBinding_Tank3"   CanExecute="CommonCommandBinding_CanExecute" />
+        <CommandBinding Command="local:CustomCommands.S_tank4"  Executed="CommandBinding_Tank4"   CanExecute="CommonCommandBinding_CanExecute" />
+    </Window.CommandBindings>
+
+    <DockPanel>
+        <Menu DockPanel.Dock="Top">
+            <MenuItem Header="_File">
+                <MenuItem Header="_New" Command="New">
+                    <MenuItem.Icon>
+                        <Image Source="/Images/Icons/new.png"/>
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem Header="_Open" Command="Open">
+                    <MenuItem.Icon>
+                        <Image Source="/Images/Icons/save.png"/>
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem Header="_Save" Command="Save">
+                    <MenuItem.Icon>
+                        <Image Source="/Images/Icons/open.png"/>
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem Header="Save _as ..." Command="SaveAs"/>
+                <Separator />
+                <MenuItem Header="_Close" Command="Close"/>
+            </MenuItem>
+        </Menu>
+        <ToolBarTray DockPanel.Dock="Top">
+            <ToolBar>
+                <Button Command="New">
+                    <Image Source="/Images/Icons/new.png"/>
+                </Button>
+                <Button Command="Open">
+                    <Image Source="/Images/Icons/open.png"/>
+                </Button>
+                <Button Command="Save">
+                    <Image Source="/Images/Icons/save.png"/>
+                </Button>
+                <Separator/>
+                <Button Command="local:CustomCommands.ZoomIn">
+                    <Image Source="/Images/Icons/zoom-in.png"/>
+                </Button>
+                <Button Command="local:CustomCommands.ZoomOut">
+                    <Image Source="/Images/Icons/zoom-out.png"/>
+                </Button>
+            </ToolBar>
+            <ToolBar>
+                <RadioButton Command="local:CustomCommands.S_dirt" Style="{StaticResource {x:Type ToggleButton}}" GroupName="Brush" BorderBrush="{x:Null}">
+                    <Image Source="/Images/dirt.png"/>
+                </RadioButton>
+                <RadioButton Command="local:CustomCommands.S_grass" Style="{StaticResource {x:Type ToggleButton}}" GroupName="Brush" BorderBrush="{x:Null}">
+                    <Image Source="/Images/grass.png"/>
+                </RadioButton>
+                <RadioButton Command="local:CustomCommands.S_gravel" Style="{StaticResource {x:Type ToggleButton}}" GroupName="Brush" BorderBrush="{x:Null}">
+                    <Image Source="/Images/gravel.png"/>
+                </RadioButton>
+                <RadioButton Command="local:CustomCommands.S_water" Style="{StaticResource {x:Type ToggleButton}}" GroupName="Brush" BorderBrush="{x:Null}">
+                    <Image Source="/Images/water.png"/>
+                </RadioButton>
+                <Separator Width="2" Visibility="Hidden"/>
+                <RadioButton Command="local:CustomCommands.S_none" Style="{StaticResource {x:Type ToggleButton}}" GroupName="Brush" BorderBrush="{x:Null}">
+                    <Image Source="/Images/rock.png"/>
+                </RadioButton>
+                <RadioButton Command="local:CustomCommands.S_rock" Style="{StaticResource {x:Type ToggleButton}}" GroupName="Brush" BorderBrush="{x:Null}">
+                    <Image Source="/Images/rock.png"/>
+                </RadioButton>
+                <RadioButton Command="local:CustomCommands.S_tree" Style="{StaticResource {x:Type ToggleButton}}" GroupName="Brush" BorderBrush="{x:Null}">
+                    <Image Source="/Images/tree.png"/>
+                </RadioButton>
+                <RadioButton Command="local:CustomCommands.S_wall" Style="{StaticResource {x:Type ToggleButton}}" GroupName="Brush" BorderBrush="{x:Null}">
+                    <Image Source="/Images/wall.png"/>
+                </RadioButton>
+                <Separator Width="2" Visibility="Hidden"/>
+                <RadioButton Command="local:CustomCommands.S_tank1" Style="{StaticResource {x:Type ToggleButton}}" GroupName="Brush" BorderBrush="{x:Null}">
+                    <Image Source="/Images/tank_red.png"/>
+                </RadioButton>
+                <RadioButton Command="local:CustomCommands.S_tank2" Style="{StaticResource {x:Type ToggleButton}}" GroupName="Brush" BorderBrush="{x:Null}">
+                    <Image Source="/Images/tank_green.png"/>
+                </RadioButton>
+                <RadioButton Command="local:CustomCommands.S_tank3" Style="{StaticResource {x:Type ToggleButton}}" GroupName="Brush" BorderBrush="{x:Null}">
+                    <Image Source="/Images/tank_blue.png"/>
+                </RadioButton>
+                <RadioButton Command="local:CustomCommands.S_tank4" Style="{StaticResource {x:Type ToggleButton}}" GroupName="Brush" BorderBrush="{x:Null}">
+                    <Image Source="/Images/tank_pink.png"/>
+                </RadioButton>
+            </ToolBar>
+        </ToolBarTray>
+        <ScrollViewer Background="{DynamicResource {x:Static SystemColors.ControlDarkBrushKey}}" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
+            <Border BorderThickness="1" BorderBrush="{DynamicResource {x:Static SystemColors.ControlDarkDarkBrushKey}}" HorizontalAlignment="Center" VerticalAlignment="Center">
+                <Viewbox Stretch="Uniform">
+                    <local:MapCanvas x:Name="mapCanvas" ImageSize="16"
+                                     Surfaces="{StaticResource surfaces}"
+                                     Barriers="{StaticResource barriers}"
+                                     Tanks="{StaticResource tanks}"
+                                     RenderOptions.BitmapScalingMode="NearestNeighbor"
+                                     MouseMove="mapCanvas_MouseMove"
+                                     MouseLeftButtonDown="mapCanvas_MouseLeftButtonDown">
+                        <Canvas.LayoutTransform>
+                            <ScaleTransform ScaleY="{Binding ElementName=EditorWindow,Path=Zoom}" ScaleX="{Binding ElementName=EditorWindow,Path=Zoom}"/>
+                        </Canvas.LayoutTransform>
+                    </local:MapCanvas>
+                </Viewbox>
+            </Border>
+        </ScrollViewer>
+    </DockPanel>
+</Window>
