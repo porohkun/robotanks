@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:RoboTanks"
         mc:Ignorable="d"
-        Title="MapEditorWindow" Name="EditorWindow" Height="300" Width="500">
+        Title="MapEditorWindow" Name="EditorWindow" Height="300" Width="500" Closing="EditorWindow_Closing">
     <Window.Resources>
         <x:Array Type="ImageSource" x:Key="surfaces">
             <ImageSource>/Images/dirt.png</ImageSource>
@@ -71,7 +71,7 @@
             </MenuItem>
         </Menu>
         <ToolBarTray DockPanel.Dock="Top">
-            <ToolBar>
+            <ToolBar SizeChanged="ToolBar_SizeChanged">
                 <Button Command="New">
                     <Image Source="/Images/Icons/new.png"/>
                 </Button>
@@ -81,7 +81,9 @@
                 <Button Command="Save">
                     <Image Source="/Images/Icons/save.png"/>
                 </Button>
-                <Separator/>
+            </ToolBar>
+            <ToolBar SizeChanged="ToolBar_SizeChanged">
+                <TextBlock Text="{Binding ElementName=EditorWindow,Path=Zoom,StringFormat=' X{0}'}" Width="22" VerticalAlignment="Center"/>
                 <Button Command="local:CustomCommands.ZoomIn">
                     <Image Source="/Images/Icons/zoom-in.png"/>
                 </Button>
@@ -89,43 +91,43 @@
                     <Image Source="/Images/Icons/zoom-out.png"/>
                 </Button>
             </ToolBar>
-            <ToolBar>
-                <RadioButton Command="local:CustomCommands.S_dirt" Style="{StaticResource {x:Type ToggleButton}}" GroupName="Brush" BorderBrush="{x:Null}">
+            <ToolBar SizeChanged="ToolBar_SizeChanged">
+                <RadioButton Command="local:CustomCommands.S_dirt" Style="{StaticResource {x:Type ToggleButton}}" GroupName="Brush" BorderBrush="{x:Null}" Background="{x:Null}">
                     <Image Source="/Images/dirt.png"/>
                 </RadioButton>
-                <RadioButton Command="local:CustomCommands.S_grass" Style="{StaticResource {x:Type ToggleButton}}" GroupName="Brush" BorderBrush="{x:Null}">
+                <RadioButton Command="local:CustomCommands.S_grass" Style="{StaticResource {x:Type ToggleButton}}" GroupName="Brush" BorderBrush="{x:Null}" Background="{x:Null}">
                     <Image Source="/Images/grass.png"/>
                 </RadioButton>
-                <RadioButton Command="local:CustomCommands.S_gravel" Style="{StaticResource {x:Type ToggleButton}}" GroupName="Brush" BorderBrush="{x:Null}">
+                <RadioButton Command="local:CustomCommands.S_gravel" Style="{StaticResource {x:Type ToggleButton}}" GroupName="Brush" BorderBrush="{x:Null}" Background="{x:Null}">
                     <Image Source="/Images/gravel.png"/>
                 </RadioButton>
-                <RadioButton Command="local:CustomCommands.S_water" Style="{StaticResource {x:Type ToggleButton}}" GroupName="Brush" BorderBrush="{x:Null}">
+                <RadioButton Command="local:CustomCommands.S_water" Style="{StaticResource {x:Type ToggleButton}}" GroupName="Brush" BorderBrush="{x:Null}" Background="{x:Null}">
                     <Image Source="/Images/water.png"/>
                 </RadioButton>
                 <Separator Width="2" Visibility="Hidden"/>
-                <RadioButton Command="local:CustomCommands.S_none" Style="{StaticResource {x:Type ToggleButton}}" GroupName="Brush" BorderBrush="{x:Null}">
+                <RadioButton Command="local:CustomCommands.S_none" Style="{StaticResource {x:Type ToggleButton}}" GroupName="Brush" BorderBrush="{x:Null}" Background="{x:Null}">
+                    <Image Source="/Images/Icons/eraser.png"/>
+                </RadioButton>
+                <RadioButton Command="local:CustomCommands.S_rock" Style="{StaticResource {x:Type ToggleButton}}" GroupName="Brush" BorderBrush="{x:Null}" Background="{x:Null}">
                     <Image Source="/Images/rock.png"/>
                 </RadioButton>
-                <RadioButton Command="local:CustomCommands.S_rock" Style="{StaticResource {x:Type ToggleButton}}" GroupName="Brush" BorderBrush="{x:Null}">
-                    <Image Source="/Images/rock.png"/>
-                </RadioButton>
-                <RadioButton Command="local:CustomCommands.S_tree" Style="{StaticResource {x:Type ToggleButton}}" GroupName="Brush" BorderBrush="{x:Null}">
+                <RadioButton Command="local:CustomCommands.S_tree" Style="{StaticResource {x:Type ToggleButton}}" GroupName="Brush" BorderBrush="{x:Null}" Background="{x:Null}">
                     <Image Source="/Images/tree.png"/>
                 </RadioButton>
-                <RadioButton Command="local:CustomCommands.S_wall" Style="{StaticResource {x:Type ToggleButton}}" GroupName="Brush" BorderBrush="{x:Null}">
+                <RadioButton Command="local:CustomCommands.S_wall" Style="{StaticResource {x:Type ToggleButton}}" GroupName="Brush" BorderBrush="{x:Null}" Background="{x:Null}">
                     <Image Source="/Images/wall.png"/>
                 </RadioButton>
                 <Separator Width="2" Visibility="Hidden"/>
-                <RadioButton Command="local:CustomCommands.S_tank1" Style="{StaticResource {x:Type ToggleButton}}" GroupName="Brush" BorderBrush="{x:Null}">
+                <RadioButton Command="local:CustomCommands.S_tank1" Style="{StaticResource {x:Type ToggleButton}}" GroupName="Brush" BorderBrush="{x:Null}" Background="{x:Null}">
                     <Image Source="/Images/tank_red.png"/>
                 </RadioButton>
-                <RadioButton Command="local:CustomCommands.S_tank2" Style="{StaticResource {x:Type ToggleButton}}" GroupName="Brush" BorderBrush="{x:Null}">
+                <RadioButton Command="local:CustomCommands.S_tank2" Style="{StaticResource {x:Type ToggleButton}}" GroupName="Brush" BorderBrush="{x:Null}" Background="{x:Null}">
                     <Image Source="/Images/tank_green.png"/>
                 </RadioButton>
-                <RadioButton Command="local:CustomCommands.S_tank3" Style="{StaticResource {x:Type ToggleButton}}" GroupName="Brush" BorderBrush="{x:Null}">
+                <RadioButton Command="local:CustomCommands.S_tank3" Style="{StaticResource {x:Type ToggleButton}}" GroupName="Brush" BorderBrush="{x:Null}" Background="{x:Null}">
                     <Image Source="/Images/tank_blue.png"/>
                 </RadioButton>
-                <RadioButton Command="local:CustomCommands.S_tank4" Style="{StaticResource {x:Type ToggleButton}}" GroupName="Brush" BorderBrush="{x:Null}">
+                <RadioButton Command="local:CustomCommands.S_tank4" Style="{StaticResource {x:Type ToggleButton}}" GroupName="Brush" BorderBrush="{x:Null}" Background="{x:Null}">
                     <Image Source="/Images/tank_pink.png"/>
                 </RadioButton>
             </ToolBar>

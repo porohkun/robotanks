@@ -33,15 +33,15 @@
         </Grid.ColumnDefinitions>
         <TextBlock Grid.Column="1" Grid.ColumnSpan="3" Grid.Row="1" Text="Robo Tanks" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="22" FontFamily="Candara"/>
         <TextBlock Grid.Column="1" Grid.Row="3" Text="Select map:" HorizontalAlignment="Right"/>
-        <ComboBox Grid.Column="3" Grid.Row="3"/>
+        <ComboBox x:Name="mapBox" Grid.Column="3" Grid.Row="3"/>
         <TextBlock Grid.Column="1" Grid.Row="5" Text="Tank_1 AI:" HorizontalAlignment="Right"/>
-        <ComboBox Grid.Column="3" Grid.Row="5"/>
+        <ComboBox x:Name="tank1Box" Grid.Column="3" Grid.Row="5"/>
         <TextBlock Grid.Column="1" Grid.Row="7" Text="Tank_2 AI:" HorizontalAlignment="Right"/>
-        <ComboBox Grid.Column="3" Grid.Row="7"/>
+        <ComboBox x:Name="tank2Box" Grid.Column="3" Grid.Row="7"/>
         <TextBlock Grid.Column="1" Grid.Row="9" Text="Tank_3 AI:" HorizontalAlignment="Right"/>
-        <ComboBox Grid.Column="3" Grid.Row="9"/>
+        <ComboBox x:Name="tank3Box" Grid.Column="3" Grid.Row="9"/>
         <TextBlock Grid.Column="1" Grid.Row="11" Text="Tank_4 AI:" HorizontalAlignment="Right"/>
-        <ComboBox Grid.Column="3" Grid.Row="11"/>
+        <ComboBox x:Name="tank4Box" Grid.Column="3" Grid.Row="11"/>
         <Grid Grid.Column="1" Grid.ColumnSpan="3" Grid.Row="13">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="120"/>

@@ -11,6 +11,8 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using Microsoft.Win32;
+using System.IO;
 
 namespace RoboTanks
 {
@@ -19,6 +21,8 @@ namespace RoboTanks
     /// </summary>
     public partial class MapEditorWindow : Window
     {
+        private string _filename = null;
+        private bool _edited = false;
         private Battle.Map __map = null;
         private Battle.Map _map
         {
@@ -29,31 +33,23 @@ namespace RoboTanks
                 mapCanvas.Map = value;
             }
         }
+
         public MapEditorWindow()
         {
             InitializeComponent();
-            _map = new Battle.Map(10, 10);
+            _map = new Battle.Map(10, 10, 4);
         }
 
         #region Bindings
 
         public static readonly DependencyProperty ZoomProperty =
-          DependencyProperty.Register("Zoom", typeof(double), typeof(MapEditorWindow), new UIPropertyMetadata(2d));
-
-        //public static readonly DependencyProperty MapProperty =
-        //  DependencyProperty.Register("Map", typeof(Battle.Map), typeof(MapEditorWindow), new UIPropertyMetadata(null));
+          DependencyProperty.Register("Zoom", typeof(double), typeof(MapEditorWindow), new UIPropertyMetadata(1d));
 
         public double Zoom
         {
             get { return (double)this.GetValue(ZoomProperty); }
             set { this.SetValue(ZoomProperty, value); }
         }
-
-        //public Battle.Map Map
-        //{
-        //    get { return (Battle.Map)this.GetValue(MapProperty); }
-        //    set { this.SetValue(MapProperty, value); }
-        //}
 
         #endregion
 
@@ -71,28 +67,45 @@ namespace RoboTanks
             var newMapWin = new NewMapWindow();
             if (newMapWin.ShowDialog().Value)
             {
-                _map = new Battle.Map(newMapWin.MapWidth, newMapWin.MapHeight);
+                _map = new Battle.Map(newMapWin.MapWidth, newMapWin.MapHeight, newMapWin.TanksCount);
+                _filename = null;
             }
         }
 
         private void CommandBinding_Open(object sender, ExecutedRoutedEventArgs e)
         {
-            MessageBox.Show("open");
+            if (CheckEdited())
+            {
+                var ofd = new OpenFileDialog();
+                ofd.InitialDirectory = Settings.MapsPath;
+                ofd.Filter = "Map files|*.map|All files|*.*";
+                if (ofd.ShowDialog().Value)
+                {
+                    _map = new Battle.Map(File.OpenRead(ofd.FileName));
+                    _filename = ofd.FileName;
+                    _edited = false;
+                }
+            }
         }
 
         private void CommandBinding_Save(object sender, ExecutedRoutedEventArgs e)
         {
-            MessageBox.Show("open");
+            Save();
         }
 
         private void CommandBinding_SaveAs(object sender, ExecutedRoutedEventArgs e)
         {
-            MessageBox.Show("open");
+            SaveAs();
         }
 
         private void CommandBinding_Close(object sender, ExecutedRoutedEventArgs e)
         {
-            MessageBox.Show("open");
+            Close();
+        }
+
+        private void EditorWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            e.Cancel = !CheckEdited();
         }
 
         private void CommandBinding_ZoomIn(object sender, ExecutedRoutedEventArgs e)
@@ -107,15 +120,6 @@ namespace RoboTanks
         }
 
         #endregion
-
-        private Type _brush;
-        private int _brushId;
-
-        private void SetBrush(object obj)
-        {
-            _brush = obj.GetType();
-            _brushId = (int)obj;
-        }
 
         #region Surface
 
@@ -191,17 +195,80 @@ namespace RoboTanks
 
         #endregion
 
+        private bool CheckEdited()
+        {
+            if (!_edited) return true;
+            var result = MessageBox.Show("Would you like to save changes?", "Map edited", MessageBoxButton.YesNoCancel);
+            switch (result)
+            {
+                case MessageBoxResult.Yes: Save(); return true;
+                case MessageBoxResult.No: return true;
+                default: return false;
+            }
+        }
+
+        private void Save()
+        {
+            if (string.IsNullOrEmpty(_filename))
+                SaveAs();
+            else
+            {
+                _map.SaveTo(File.OpenWrite(_filename));
+                _edited = false;
+            }
+        }
+
+        private void SaveAs()
+        {
+            var sfd = new SaveFileDialog();
+            sfd.InitialDirectory = Settings.MapsPath;
+            sfd.Filter = "Map files|*.map";
+            if (sfd.ShowDialog().Value)
+            {
+                _filename = sfd.FileName;
+                Save();
+            }
+        }
+
+        private Type _brush;
+        private int _brushId;
+
+        private void SetBrush(object obj)
+        {
+            _brush = obj.GetType();
+            _brushId = (int)obj;
+        }
+
         private void mapCanvas_MouseMove(object sender, MouseEventArgs e)
         {
             if (e.LeftButton == MouseButtonState.Pressed)
             {
                 mapCanvas.Draw(_brush, _brushId, Mouse.GetPosition(mapCanvas));
+                _edited = true;
             }
         }
 
         private void mapCanvas_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             mapCanvas.Draw(_brush, _brushId, Mouse.GetPosition(mapCanvas));
+            _edited = true;
+        }
+
+        private void ToolBar_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            ToolBar toolBar = sender as ToolBar;
+            var overflowGrid = toolBar.Template.FindName("OverflowGrid", toolBar) as FrameworkElement;
+            if (overflowGrid != null)
+            {
+                overflowGrid.Visibility = toolBar.HasOverflowItems ? Visibility.Visible : Visibility.Collapsed;
+            }
+
+            var mainPanelBorder = toolBar.Template.FindName("MainPanelBorder", toolBar) as FrameworkElement;
+            if (mainPanelBorder != null)
+            {
+                var defaultMargin = new Thickness(0, 0, 11, 0);
+                mainPanelBorder.Margin = toolBar.HasOverflowItems ? defaultMargin : new Thickness(0);
+            }
         }
     }
 }

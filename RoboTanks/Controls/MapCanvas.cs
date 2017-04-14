@@ -45,10 +45,8 @@ namespace RoboTanks
                     if (cell.Barrier != Battle.BarrierType.None)
                         DrawImage(dc, Barriers[(int)cell.Barrier], x, y);
                 }
-            DrawImage(dc, Tanks[0], Map.Tank1Pos.X, Map.Tank1Pos.Y);
-            DrawImage(dc, Tanks[1], Map.Tank2Pos.X, Map.Tank2Pos.Y);
-            DrawImage(dc, Tanks[2], Map.Tank3Pos.X, Map.Tank3Pos.Y);
-            DrawImage(dc, Tanks[3], Map.Tank4Pos.X, Map.Tank4Pos.Y);
+            for (int i = 0; i < Map.TanksPos.Length; i++)
+                DrawImage(dc, Tanks[i], Map.TanksPos[i].X, Map.TanksPos[i].Y);
         }
 
         private void DrawImage(DrawingContext dc, ImageSource image, int x, int y)
@@ -60,10 +58,13 @@ namespace RoboTanks
         {
             int x = (int)(point.X / ImageSize);
             int y = (int)(point.Y / ImageSize);
+            var cell = Map[x, y];
+            if (cell == null) return;
             switch (brush.Name)
             {
-                case "SurfaceType": Map[x, y].Surface = (Battle.SurfaceType)brushId; break;
-                case "BarrierType": Map[x, y].Barrier = (Battle.BarrierType)brushId; break;
+                case "SurfaceType": cell.Surface = (Battle.SurfaceType)brushId; break;
+                case "BarrierType": cell.Barrier = (Battle.BarrierType)brushId; break;
+                case "Int32": Map.TanksPos[brushId] = new Battle.Point(x, y); break;
                 default: return;
             }
             InvalidateVisual();

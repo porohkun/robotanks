@@ -10,7 +10,6 @@ namespace RoboTanks.Battle
     {
         public SurfaceType Surface { get; set; }
         public BarrierType Barrier { get; set; }
-        public int Tank { get; private set; }
 
         public Cell(SurfaceType surface, BarrierType barrier)
         {
