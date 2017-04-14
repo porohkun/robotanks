@@ -60,10 +60,17 @@
       <DependentUpon>NewMapWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Source\Battle\BarrierType.cs" />
+    <Compile Include="Source\Battle\BattleGround.cs" />
     <Compile Include="Source\Battle\Cell.cs" />
+    <Compile Include="Source\Battle\Direction.cs" />
+    <Compile Include="Source\Battle\IAI.cs" />
     <Compile Include="Source\Battle\Map.cs" />
     <Compile Include="Source\Battle\Point.cs" />
+    <Compile Include="Source\Battle\Shell.cs" />
     <Compile Include="Source\Battle\SurfaceType.cs" />
+    <Compile Include="Source\Battle\Tank\MovingSubsystem.cs" />
+    <Compile Include="Source\Battle\Tank\Tank.cs" />
+    <Compile Include="Source\Battle\Tank\TestAI.cs" />
     <Compile Include="Source\CustomCommands.cs" />
     <Compile Include="Windows\MapEditorWindow.xaml.cs">
       <DependentUpon>MapEditorWindow.xaml</DependentUpon>
