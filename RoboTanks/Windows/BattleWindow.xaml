@@ -1,0 +1,50 @@
+﻿<Window x:Class="RoboTanks.BattleWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:RoboTanks"
+        mc:Ignorable="d"
+        Title="BattleWindow" Height="359" Width="561.864">
+    <Window.Resources>
+        <x:Array Type="ImageSource" x:Key="surfaces">
+            <ImageSource>/Images/dirt.png</ImageSource>
+            <ImageSource>/Images/grass.png</ImageSource>
+            <ImageSource>/Images/gravel.png</ImageSource>
+            <ImageSource>/Images/water.png</ImageSource>
+        </x:Array>
+        <x:Array Type="ImageSource" x:Key="barriers">
+            <ImageSource>/Images/rock.png</ImageSource>
+            <ImageSource>/Images/tree.png</ImageSource>
+            <ImageSource>/Images/wall.png</ImageSource>
+        </x:Array>
+        <x:Array Type="ImageSource" x:Key="tanks">
+            <ImageSource>/Images/tank_red.png</ImageSource>
+            <ImageSource>/Images/tank_green.png</ImageSource>
+            <ImageSource>/Images/tank_blue.png</ImageSource>
+            <ImageSource>/Images/tank_pink.png</ImageSource>
+        </x:Array>
+    </Window.Resources>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="10"/>
+            <ColumnDefinition Width="100"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="{Binding ElementName=canvas,Path=DrawWidth}"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="100"/>
+            <ColumnDefinition Width="10"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="{Binding ElementName=canvas,Path=DrawHeight}"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <local:MapCanvas x:Name="canvas" Grid.Column="3" Grid.Row="1"
+                         ImageSize="16"
+                         Surfaces="{StaticResource surfaces}"
+                         Barriers="{StaticResource barriers}"
+                         Tanks="{StaticResource tanks}"
+                         RenderOptions.BitmapScalingMode="NearestNeighbor"/>
+    </Grid>
+</Window>

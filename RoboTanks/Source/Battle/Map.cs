@@ -12,6 +12,9 @@ namespace RoboTanks.Battle
         public int Width { get; private set; }
         public int Height { get; private set; }
         public Point[] TanksPos { get; private set; }
+        public Direction[] TanksDir { get; private set; }
+
+        public Cell this[Point pos] { get { return this[pos.X, pos.Y]; } }
 
         public Cell this[int x, int y]
         {
@@ -25,9 +28,22 @@ namespace RoboTanks.Battle
 
         private Cell[,] _cells;
 
-        public Map(int width, int height, int tanks)
+        public Map(int width, int height)
         {
-            TanksPos = new Point[tanks];
+            TanksPos = new Point[]
+            {
+                new Point(0, 0),
+                new Point(0, height - 1),
+                new Point(width - 1, 0),
+                new Point(width - 1, height - 1)
+            };
+            TanksDir = new Direction[]
+            {
+                 Direction.North,
+                 Direction.West,
+                 Direction.South,
+                 Direction.East
+            };
             Width = width;
             Height = height;
             _cells = new Cell[width, height];

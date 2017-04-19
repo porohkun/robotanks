@@ -12,6 +12,9 @@ namespace RoboTanks
 {
     public class MapCanvas : Canvas
     {
+        public double DrawWidth { get { return ImageSize * _map.Width; } }
+        public double DrawHeight { get { return ImageSize * _map.Height; } }
+
         public int ImageSize { get; set; }
         public ImageSource[] Surfaces { get; set; }
         public ImageSource[] Barriers { get; set; }
@@ -46,7 +49,15 @@ namespace RoboTanks
                         DrawImage(dc, Barriers[(int)cell.Barrier], x, y);
                 }
             for (int i = 0; i < Map.TanksPos.Length; i++)
-                DrawImage(dc, Tanks[i], Map.TanksPos[i].X, Map.TanksPos[i].Y);
+            {
+                double x = Map.TanksPos[i].X;
+                double y = Map.TanksPos[i].Y;
+                var transform = new RotateTransform(((int)Map.TanksDir[i]) * 90, (x + 0.5d) * ImageSize, (y + 0.5d) * ImageSize);
+                dc.PushTransform(transform);
+                dc.DrawImage(Tanks[i], new Rect(x * ImageSize, y * ImageSize, ImageSize, ImageSize));
+                //DrawImage(dc, Tanks[i], Map.TanksPos[i].X, Map.TanksPos[i].Y);
+                dc.Pop();
+            }
         }
 
         private void DrawImage(DrawingContext dc, ImageSource image, int x, int y)

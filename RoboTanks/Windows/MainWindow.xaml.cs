@@ -71,7 +71,14 @@ namespace RoboTanks
 
         private void StartBattle_Click(object sender, RoutedEventArgs e)
         {
-
+            var window = new BattleWindow((string)mapBox.SelectedItem, new string[]
+            {
+                (string)tank1Box.SelectedItem,
+                (string)tank2Box.SelectedItem,
+                (string)tank3Box.SelectedItem,
+                (string)tank4Box.SelectedItem
+            });
+            window.Show();
         }
 
         private void OpenTanksDir_Click(object sender, RoutedEventArgs e)

@@ -37,7 +37,7 @@ namespace RoboTanks
         public MapEditorWindow()
         {
             InitializeComponent();
-            _map = new Battle.Map(10, 10, 4);
+            _map = new Battle.Map(10, 10);
         }
 
         #region Bindings
@@ -67,7 +67,7 @@ namespace RoboTanks
             var newMapWin = new NewMapWindow();
             if (newMapWin.ShowDialog().Value)
             {
-                _map = new Battle.Map(newMapWin.MapWidth, newMapWin.MapHeight, newMapWin.TanksCount);
+                _map = new Battle.Map(newMapWin.MapWidth, newMapWin.MapHeight);
                 _filename = null;
             }
         }

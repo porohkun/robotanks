@@ -55,8 +55,11 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Windows\BattleWindow.xaml.cs">
+      <DependentUpon>BattleWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Controls\MapCanvas.cs" />
-    <Compile Include="NewMapWindow.xaml.cs">
+    <Compile Include="Windows\NewMapWindow.xaml.cs">
       <DependentUpon>NewMapWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Source\Battle\BarrierType.cs" />
@@ -68,6 +71,8 @@
     <Compile Include="Source\Battle\Point.cs" />
     <Compile Include="Source\Battle\Shell.cs" />
     <Compile Include="Source\Battle\SurfaceType.cs" />
+    <Compile Include="Source\Battle\Tank\Configuration.cs" />
+    <Compile Include="Source\Battle\Tank\MovingAction.cs" />
     <Compile Include="Source\Battle\Tank\MovingSubsystem.cs" />
     <Compile Include="Source\Battle\Tank\Tank.cs" />
     <Compile Include="Source\Battle\Tank\TestAI.cs" />
@@ -76,7 +81,11 @@
       <DependentUpon>MapEditorWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Source\Settings.cs" />
-    <Page Include="NewMapWindow.xaml">
+    <Page Include="Windows\BattleWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Windows\NewMapWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

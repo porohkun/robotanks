@@ -6,82 +6,78 @@ using System.Threading.Tasks;
 
 namespace RoboTanks.Battle
 {
-    public class MovingSubsystemInterface
-    {
-        internal Func<int> OnRotateRight;
-        internal Func<int> OnRotateLeft;
-        internal Func<int> OnMoveForward;
-        internal Func<int> OnMoveBackward;
-
-        public int RotateRight()
-        {
-            if (OnRotateRight != null)
-                return OnRotateRight();
-            else
-                return -1;
-        }
-
-        public int RotateLeft()
-        {
-            if (OnRotateLeft != null)
-                return OnRotateLeft();
-            else
-                return -1;
-        }
-
-        public int MoveForward()
-        {
-            if (OnMoveForward != null)
-                return OnMoveForward();
-            else
-                return -1;
-        }
-
-        public int MoveBackward()
-        {
-            if (OnMoveBackward != null)
-                return OnMoveBackward();
-            else
-                return -1;
-        }
-    }
-
     public class MovingSubsystem
     {
-        public MovingSubsystemInterface Interface { get; private set; }
+        private int _tickLag = 0;
+        public int TickLag { get { return _tickLag; } private set { _tickLag = value >= 0 ? value : 0; } }
 
-        public MovingSubsystem()
+        internal Func<bool> OnRotateRight;
+        internal Func<bool> OnRotateLeft;
+        internal Func<bool> OnMoveForward;
+        internal Func<bool> OnMoveBackward;
+
+        private bool MakeMovingAction(Func<bool> action, int tickLag)
         {
-            Interface = new MovingSubsystemInterface();
-            Interface.OnRotateRight = RotateRight;
-            Interface.OnRotateLeft = RotateLeft;
-            Interface.OnMoveForward = MoveForward;
-            Interface.OnMoveBackward = MoveBackward;
+            if (TickLag > 0) return false;
+            bool result = false;
+            if (action != null)
+                result = action();
+            if (result)
+                TickLag += tickLag;
+            return result;
         }
 
-        private int RotateRight()
+        public bool RotateRight()
         {
-            throw new NotImplementedException();
+            return MakeMovingAction(OnRotateRight, Configuration.RotationTime);
         }
 
-        private int RotateLeft()
+        public bool RotateLeft()
         {
-            throw new NotImplementedException();
+            return MakeMovingAction(OnRotateLeft, Configuration.RotationTime);
         }
 
-        private int MoveForward()
+        public bool MoveForward()
         {
-            throw new NotImplementedException();
+            return MakeMovingAction(OnMoveForward, Configuration.MovingForwardTime);
         }
 
-        private int MoveBackward()
+        public bool MoveBackward()
         {
-            throw new NotImplementedException();
+            return MakeMovingAction(OnMoveBackward, Configuration.MovingBackwardTime);
+        }
+
+        public bool RotateRight(out int lag)
+        {
+            var result = RotateRight();
+            lag = _tickLag;
+            return result;
+        }
+
+        public bool RotateLeft(out int lag)
+        {
+            var result = RotateLeft();
+            lag = _tickLag;
+            return result;
+        }
+
+        public bool MoveForward(out int lag)
+        {
+            var result = MoveForward();
+            lag = _tickLag;
+            return result;
+        }
+
+        public bool MoveBackward(out int lag)
+        {
+            var result = MoveBackward();
+            lag = _tickLag;
+            return result;
         }
 
         internal void Update()
         {
-            throw new NotImplementedException();
+            TickLag -= 1;
         }
     }
 }

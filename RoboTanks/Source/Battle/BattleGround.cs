@@ -10,8 +10,6 @@ namespace RoboTanks.Battle
     {
         private Map _map;
         private Tank[] _tanks;
-        private Point[] _tanksPos;
-        private Direction[] _tanksDir;
 
         public int Time { get; private set; }
 
@@ -19,12 +17,21 @@ namespace RoboTanks.Battle
         {
             _map = map;
             _tanks = new Tank[ais.Length];
-            _tanksPos = (Point[])_map.TanksPos.Clone();
-            _tanksDir = new Direction[ais.Length];
             for (int i = 0; i < _tanks.Length; i++)
             {
-                _tanks[i] = new Tank(ais[i]);
+                _tanks[i] = new Tank(ais[i], (Point)_map.TanksPos[i], Direction.North);
+                _tanks[i].CellFree = CellFree;
             }
+        }
+
+        private bool CellFree(Point pos)
+        {
+            var cell = _map[pos];
+            if (cell == null) return false;
+            var free = cell.Barrier == BarrierType.None && cell.Surface != SurfaceType.Water;
+            for (int i = 0; i < _tanks.Length; i++)
+                free = free && _tanks[i].TankPos != pos;
+            return free;
         }
 
         public void Update()
@@ -32,6 +39,13 @@ namespace RoboTanks.Battle
             Time++;
             for (int i = 0; i < _tanks.Length; i++)
                 _tanks[i].Update(Time);
+            for (int i = 0; i < _tanks.Length; i++)
+                _tanks[i].AiUpdate(Time);
+            for (int i = 0; i < _tanks.Length; i++)
+            {
+                _map.TanksPos[i] = _tanks[i].TankPos;
+                _map.TanksDir[i] = _tanks[i].TankDir;
+            }
         }
     }
 }

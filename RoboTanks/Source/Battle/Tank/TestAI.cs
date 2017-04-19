@@ -11,11 +11,11 @@ namespace RoboTanks.Battle
     {
         public int Time { get; set; }
 
-        private MovingSubsystemInterface _movingInterface;
+        private MovingSubsystem _movingSubsystem;
 
-        public void Initialize(MovingSubsystemInterface movingInterface)
+        public void Initialize(MovingSubsystem movingInterface)
         {
-            _movingInterface = movingInterface;
+            _movingSubsystem = movingInterface;
         }
 
         public IEnumerator Cycle()
@@ -23,9 +23,13 @@ namespace RoboTanks.Battle
             int ticks = 0;
             while (true)
             {
-                ticks = _movingInterface.RotateRight();
+                _movingSubsystem.RotateRight(out ticks);
                 for (int i = 0; i < ticks; i++) yield return null;
-                ticks = _movingInterface.MoveForward();
+                _movingSubsystem.MoveForward(out ticks);
+                for (int i = 0; i < ticks; i++) yield return null;
+                _movingSubsystem.MoveForward(out ticks);
+                for (int i = 0; i < ticks; i++) yield return null;
+                _movingSubsystem.MoveForward(out ticks);
                 for (int i = 0; i < ticks; i++) yield return null;
             }
         }
