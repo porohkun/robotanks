@@ -60,6 +60,7 @@ namespace RoboTanks.Battle
                 switch (version)
                 {
                     case 1: DeserializeVer1(br); break;
+                    case 2: DeserializeVer2(br); break;
                 }
             }
         }
@@ -75,13 +76,36 @@ namespace RoboTanks.Battle
             for (int x = 0; x < Width; x++)
                 for (int y = 0; y < Height; y++)
                     _cells[x, y] = new Cell((SurfaceType)br.ReadInt32(), (BarrierType)br.ReadInt32());
+
+            TanksDir = new Direction[]
+            {
+                 Direction.North,
+                 Direction.West,
+                 Direction.South,
+                 Direction.East
+            };
+        }
+
+        private void DeserializeVer2(BinaryReader br)
+        {
+            Width = br.ReadInt32();
+            Height = br.ReadInt32();
+            TanksPos = new Point[br.ReadInt32()];
+            for (int i = 0; i < TanksPos.Length; i++)
+                TanksPos[i] = new Point(br.ReadInt32(), br.ReadInt32());
+            for (int i = 0; i < TanksDir.Length; i++)
+                TanksDir[i] = (Direction)br.ReadInt32();
+            _cells = new Cell[Width, Height];
+            for (int x = 0; x < Width; x++)
+                for (int y = 0; y < Height; y++)
+                    _cells[x, y] = new Cell((SurfaceType)br.ReadInt32(), (BarrierType)br.ReadInt32());
         }
 
         internal void SaveTo(Stream stream)
         {
             using (var bw = new BinaryWriter(stream))
             {
-                bw.Write(1);
+                bw.Write(2);//version
                 bw.Write(Width);
                 bw.Write(Height);
                 bw.Write(TanksPos.Length);
@@ -90,6 +114,8 @@ namespace RoboTanks.Battle
                     bw.Write(TanksPos[i].X);
                     bw.Write(TanksPos[i].Y);
                 }
+                for (int i = 0; i < TanksDir.Length; i++)
+                    bw.Write((int)TanksDir[i]);
                 for (int x = 0; x < Width; x++)
                     for (int y = 0; y < Height; y++)
                     {
